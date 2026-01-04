@@ -1,0 +1,5 @@
+{
+  "name": "React Tag Input",
+  "description": "A robust, space-delimited tag input component with removal functionality and programmatic access to tag data.",
+  "requestFramePermissions": []
+}
