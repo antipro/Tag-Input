@@ -76,13 +76,23 @@ export const TagInput = forwardRef<TagInputHandle, TagInputProps>(
       onChange?.(updatedTags);
     };
 
+    const handleClearAll = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setTags([]);
+      setInputValue('');
+      onChange?.([]);
+      inputRef.current?.focus();
+    };
+
     const handleContainerClick = () => {
       inputRef.current?.focus();
     };
 
+    const showClear = tags.length > 0 || inputValue.length > 0;
+
     return (
       <div 
-        className={`flex flex-wrap items-center gap-2 p-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 transition-all cursor-text ${className}`}
+        className={`flex flex-wrap items-center gap-2 p-3 pr-10 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 transition-all cursor-text relative ${className}`}
         onClick={handleContainerClick}
       >
         {tags.map((tag, index) => (
@@ -114,6 +124,18 @@ export const TagInput = forwardRef<TagInputHandle, TagInputProps>(
           placeholder={tags.length === 0 ? placeholder : ''}
           className="flex-grow min-w-[120px] outline-none bg-transparent text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
         />
+
+        {showClear && (
+          <button
+            type="button"
+            onClick={handleClearAll}
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            aria-label="Clear all"
+            title="Clear all"
+          >
+            <X size={16} strokeWidth={2.5} />
+          </button>
+        )}
       </div>
     );
   }
